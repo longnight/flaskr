@@ -38,7 +38,7 @@ def teardown_request(exception):
     if db is not None:
         db.close()
 
-
+#try something
 @app.route('/')
 def show_entries():
     cur = g.db.execute('select title, text from entries order by id desc')
