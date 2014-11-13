@@ -27,6 +27,9 @@ def init_db():
             db.cursor().executescript(f.read())
         db.commit()
 
+def connect_db():
+    return sqlite3.connect(app.config['DATABASE'])
+
 
 @app.before_request
 def before_request():
@@ -69,8 +72,12 @@ def login():
             return redirect(url_for('show_entries'))
     return render_template('login.html', error=error)
 
-def connect_db():
-    return sqlite3.connect(app.config['DATABASE'])
+@app.route('/logout')
+def logout():
+    session.pop('logged_in', None)
+    flash('You were logged out')
+    return redirect(url_for('show_entries'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)
